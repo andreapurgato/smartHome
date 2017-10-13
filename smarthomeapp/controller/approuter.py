@@ -6,7 +6,9 @@
 import  logging
 log = logging.getLogger(__name__)
 
-from flask import Flask
+import os
+from flask import Flask, send_from_directory
+from jinja2 import Environment, PackageLoader
 from smarthomeapp.controller import appcontroller
 
 
@@ -14,6 +16,7 @@ from smarthomeapp.controller import appcontroller
 # app instance
 SMART_HOME_APPLICATION = Flask(__name__)
 CONTROLLER = None
+
 
 def setup_application():
     """ 
@@ -36,8 +39,19 @@ def setup_application():
 @SMART_HOME_APPLICATION.route('/')
 def home_page():
     """
-    Home page returned.
+    Home Page returned.
     :return: home page instance.
     """
 
-    return 'Hello World!'
+    page = Environment(loader = PackageLoader('smarthomeapp', 'view/templates')).get_template('home.html')
+    return page.render()
+
+
+@SMART_HOME_APPLICATION.route('/js/<path:path>')
+def java_script(path):
+    """
+    JS requested returned.
+    :return: JS file content.
+    """
+
+    return send_from_directory(os.path.join(os.getcwd(), 'view/js'), path)

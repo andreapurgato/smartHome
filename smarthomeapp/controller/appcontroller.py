@@ -6,7 +6,7 @@
 import  logging
 log = logging.getLogger(__name__)
 
-from smarthomeapp.model import appmodel
+from smarthomeapp.model.items import itemsmanager
 
 
 class Controller:
@@ -14,7 +14,7 @@ class Controller:
 
     def __init__(self):
         """ Controller Constructor """
-        self._model = appmodel.Model()
+        self._model = itemsmanager.ItemsManager()
         return
 
 

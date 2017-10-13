@@ -9,10 +9,10 @@ log = logging.getLogger(__name__)
 import os
 
 
-class Model:
+class ItemsManager:
     """ Class representing the Home model """
 
-    _ITEM_CFG_PATH = os.path.join(os.getcwd() + 'configurations/items')
+    _ITEM_CFG_PATH = os.path.join(os.getcwd(), 'configurations/items')
 
     def __init__(self):
         """ Model Constructor """
