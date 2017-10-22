@@ -7,7 +7,7 @@ import logging
 log = logging.getLogger(__name__)
 
 import logger
-from smarthomeapp.controller import approuter
+from smarthomeapp.controller import appcontroller
 
 
 def main():
@@ -16,7 +16,7 @@ def main():
     logger.setup_logging()
 
     log.info("Starting Smart Home Project server...")
-    approuter.setup_application()
+    appcontroller.initialize_app()
 
 
 

@@ -9,25 +9,23 @@ log = logging.getLogger(__name__)
 import os
 from flask import Flask, send_from_directory
 from jinja2 import Environment, PackageLoader
-from smarthomeapp.controller import appcontroller
 
 
 
 # app instance
 SMART_HOME_APPLICATION = Flask(__name__)
-CONTROLLER = None
+QUEUE = None
 
 
-def setup_application():
+def start_application(args=None):
     """ 
     Function that create a controller instance and start the smarthomeapp.
     :return: --
     """
 
-    global SMART_HOME_APPLICATION, CONTROLLER
-
+    global SMART_HOME_APPLICATION, QUEUE
+    QUEUE = args
     SMART_HOME_APPLICATION.run()
-    appcontroller.Controller()
 
     return
 
