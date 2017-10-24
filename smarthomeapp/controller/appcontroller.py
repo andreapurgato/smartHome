@@ -8,6 +8,7 @@ log = logging.getLogger(__name__)
 
 import threading
 from Queue import Queue
+from smarthomeapp.model.items import itemsmanager
 from smarthomeapp.controller import approuter
 from smarthomeapp.controller import requestmanager
 
@@ -23,6 +24,7 @@ def initialize_app():
     """
 
     # create object instances needed
+    item_manager = itemsmanager.ItemsManager()
     controller = Controller()
     request_queue = Queue()
 
@@ -34,7 +36,7 @@ def initialize_app():
 
     # setup the items manager
 
-    # setup the Flask application
+    # setup & start the Flask application
     log.info('Initializing Flask application')
     flask_application = threading.Thread(name='FlaskApplication', target=approuter.start_application, args=[request_queue])
     flask_application.start()

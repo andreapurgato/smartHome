@@ -1,0 +1,9 @@
+{
+  "_comment": "light behind the TV in living room",
+  "name": "Ligh_Livingroom_1",
+  "item": {
+    "category": {{ items.light.category }},
+    "code": {{ items.light.code }},
+    "type": {{ items.light.type.switch }}
+  }
+}

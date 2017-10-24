@@ -1,0 +1,9 @@
+{
+  "_comment": "light in the middle of the living room",
+  "name": "Ligh_Livingroom_2",
+  "item": {
+    "category": {{ items.light.category }},
+    "code": {{ items.light.code }},
+    "type": {{ items.light.type.incremental }}
+  }
+}
