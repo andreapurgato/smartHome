@@ -9,7 +9,6 @@ log = logging.getLogger(__name__)
 import os
 import json
 from jinja2 import Environment, PackageLoader
-from smarthomeapp.model.items import ITEMS_PARAMS
 
 
 class ItemsManager:
@@ -19,7 +18,7 @@ class ItemsManager:
 
     def __init__(self):
         """  Model Constructor """
-        self._items = [] # all the items of the smart home
+        self._items = {} # all the items of the smart home
         self._load_items() # load all the items
 
         return
@@ -40,10 +39,11 @@ class ItemsManager:
 
             # create template and load it
             template = env.get_template(item_cfg_filename)
-            item_cfg_content = template.render(items=ITEMS_PARAMS)
+            item_cfg_content = template.render()
+
             log.info("loaded " + item_cfg_filename + "\n" + item_cfg_content)
 
-            # manage the item characteristics coming from the JSON
+            # create Items object
 
 
         return
