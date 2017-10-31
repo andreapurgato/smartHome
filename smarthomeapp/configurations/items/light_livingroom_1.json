@@ -1,7 +1,5 @@
 {
-
   "_comment": "light behind the TV in living room",
-  "model" :"smarthomeapp.model.items.GradientLight",
+  "model" :"GradientLight",
   "name": "Ligh Livingroom TV"
-
 }

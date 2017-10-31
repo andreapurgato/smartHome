@@ -8,7 +8,7 @@ log = logging.getLogger(__name__)
 
 import os
 import json
-from jinja2 import Environment, PackageLoader
+from smarthomeapp.model.items.itemsdefintion import * # import all the items classes
 
 
 class ItemsManager:
@@ -31,19 +31,22 @@ class ItemsManager:
         """
 
         # environment used to load all the JSON
-        env = Environment(loader=PackageLoader('smarthomeapp', 'configurations/items'))
-        env.filters['jsonify'] = json.dumps # set the JSON type
 
         log.info("Loading all the items of the home present at path: " + self._ITEM_CFG_PATH)
+        item_id = 0
         for item_cfg_filename in os.listdir(self._ITEM_CFG_PATH):
 
-            # create template and load it
-            template = env.get_template(item_cfg_filename)
-            item_cfg_content = template.render()
+            # open the current config file
+            log.debug('loading ' + item_cfg_filename + ' item config file')
+            item_cfg_content = json.load(open(os.path.join(self._ITEM_CFG_PATH, item_cfg_filename)))
 
-            log.info("loaded " + item_cfg_filename + "\n" + item_cfg_content)
+            # create Item object
+            item_object = eval(item_cfg_content['model'])(item_id, item_cfg_content['name'])
+            self._items[item_id] = item_object # add the item to the items map
+            log.info("loaded " + item_cfg_filename + " :\n" + str(item_object))
 
-            # create Items object
+            item_id += 1 # increase the items ids
+
 
 
         return

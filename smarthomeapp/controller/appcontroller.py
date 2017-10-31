@@ -23,8 +23,11 @@ def initialize_app():
     :return: --
     """
 
-    # create object instances needed
+    # setup the item manager
+    log.info('Initializing Items manager')
     item_manager = itemsmanager.ItemsManager()
+
+    # create object instances needed
     controller = Controller()
     request_queue = Queue()
 
@@ -34,12 +37,12 @@ def initialize_app():
     request_manager.setName('RequestManager') # set thread name
     request_manager.start() # start request manager thread
 
-    # setup the items manager
-
     # setup & start the Flask application
     log.info('Initializing Flask application')
     flask_application = threading.Thread(name='FlaskApplication', target=approuter.start_application, args=[request_queue])
     flask_application.start()
+
+    log.info('End application initialization')
 
     return
 

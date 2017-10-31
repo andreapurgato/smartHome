@@ -1,7 +1,5 @@
 {
-
   "_comment": "light in the middle of the living room",
-  "model" :"smarthomeapp.model.items.OnOffLight",
-  "name": "Ligh Livingroom Middle"
-
+  "model" :"OnOffLight",
+  "name": "Light Livingroom Middle"
 }
