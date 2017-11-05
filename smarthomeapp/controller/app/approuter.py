@@ -14,7 +14,7 @@ from jinja2 import Environment, PackageLoader
 
 # app instance
 SMART_HOME_APPLICATION = Flask(__name__)
-QUEUE = None
+USER_REQUEST_MANAGER = None
 
 
 def start_application(args=None):
@@ -23,8 +23,8 @@ def start_application(args=None):
     :return: --
     """
 
-    global SMART_HOME_APPLICATION, QUEUE
-    QUEUE = args
+    global SMART_HOME_APPLICATION, USER_REQUEST_MANAGER
+    USER_REQUEST_MANAGER = args
     SMART_HOME_APPLICATION.run()
 
     return

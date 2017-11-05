@@ -43,6 +43,13 @@ class AbstractItem:
         """
         return self._id
 
+    def get_name(self):
+        """
+        Function that return the name of the item
+        :return: item name
+        """
+        return self._name
+
 
     def get_status(self):
         """

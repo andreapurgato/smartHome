@@ -10,7 +10,7 @@ from smarthomeapp.model.items.itemsdefintion import *
 from smarthomeapp.model.items.itemsutils import ItemException
 
 
-class ItemsManager:
+class ItemsModel:
     """ Class representing the Home model """
 
     ITEM_ID = 0 # ID counter for the new ids
