@@ -6,50 +6,48 @@
 import logging
 log = logging.getLogger(__name__)
 
-import os
-import json
-from smarthomeapp.model.items.itemsdefintion import * # import all the items classes
+from smarthomeapp.model.items.itemsdefintion import *
+from smarthomeapp.model.items.itemsutils import ItemException
 
 
 class ItemsManager:
     """ Class representing the Home model """
 
-    _ITEM_CFG_PATH = os.path.join(os.getcwd(), os.path.join('configurations', 'items'))
+    ITEM_ID = 0 # ID counter for the new ids
 
     def __init__(self):
         """  Model Constructor """
         self._items = {} # all the items of the smart home
-        self._load_items() # load all the items
-
         return
 
 
-    def _load_items(self):
+    def create_item(self, model, name):
         """
-        Function used to load all the items from configuration files.
+        Function used to add the item given to the model
+        :param model: class to instantiate for the item requested.
+        :param name: name of the item to create
         :return: --
         """
 
-        # environment used to load all the JSON
+        item = eval(model)(self.ITEM_ID, name) # create the item
 
-        log.info("Loading all the items of the home present at path: " + self._ITEM_CFG_PATH)
-        item_id = 0
-        for item_cfg_filename in os.listdir(self._ITEM_CFG_PATH):
+        # check if model is subclass of AbstractItems
+        if not isinstance(item, AbstractItem):
+            raise ItemException("Tried to add a non-item to the item manager map, class " + model + " not allowed")
 
-            # open the current config file
-            log.debug('loading ' + item_cfg_filename + ' item config file')
-            item_cfg_content = json.load(open(os.path.join(self._ITEM_CFG_PATH, item_cfg_filename)))
+        # add the item to the map and increase the id counter
+        self._items[item.get_id()] = item
+        log.debug("loaded item :\n" + str(item))
 
-            # create Item object
-            item_object = eval(item_cfg_content['model'])(item_id, item_cfg_content['name'])
-            self._items[item_id] = item_object # add the item to the items map
-            log.info("loaded " + item_cfg_filename + " :\n" + str(item_object))
-
-            item_id += 1 # increase the items ids
-
-
+        self.ITEM_ID += 1
 
         return
+
+    def get_items(self):
+        """
+        :return: the items map 
+        """
+        return self._items
 
 
 

@@ -36,16 +36,19 @@ class AbstractItem:
                 "status : " + str(self._status)
 
 
+    def get_id(self):
+        """
+        Function that return the ID of the item
+        :return: item id
+        """
+        return self._id
+
+
     def get_status(self):
         """
         Function that returns the status of the current item
         :return: item status
         """
-
-        # check is the status has the right instance
-        if not issubclass(self._status, Status):
-            raise ItemException('Wrong status instance, cannot return it. ' + self._status)
-
         return self._status
 
 

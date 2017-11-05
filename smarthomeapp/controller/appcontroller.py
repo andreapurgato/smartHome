@@ -6,9 +6,11 @@
 import  logging
 log = logging.getLogger(__name__)
 
+import json
+import os
 import threading
 from Queue import Queue
-from smarthomeapp.model.items import itemsmanager
+from smarthomeapp.model.items.itemsmanager import ItemsManager
 from smarthomeapp.controller import approuter
 from smarthomeapp.controller import requestmanager
 
@@ -23,13 +25,16 @@ def initialize_app():
     :return: --
     """
 
+    # create object needed
+    request_queue = Queue()
+
     # setup the item manager
     log.info('Initializing Items manager')
-    item_manager = itemsmanager.ItemsManager()
+    items_manager = ItemsManager()
 
-    # create object instances needed
-    controller = Controller()
-    request_queue = Queue()
+    # create system controller
+    controller = Controller(items_manager=items_manager)
+    controller.load_items()
 
     # setup the request manager
     log.info('Initializing Request manager')
@@ -54,8 +59,35 @@ def initialize_app():
 class Controller:
     """ Class representing the Home controller """
 
-    def __init__(self):
-        """ Controller Constructor """
+    _ITEM_CFG_PATH = os.path.join(os.getcwd(), os.path.join('configurations', 'items'))
+
+    def __init__(self, request_queue = Queue(), items_manager = ItemsManager()):
+        """
+        Controller Constructor
+        :param request_queue: queue of the request to be performed by the controller
+        :param items_manager: model object of the system
+        """
+        self._request_queue = request_queue
+        self._items_manager = items_manager
+        return
+
+
+    def load_items(self):
+        """
+        Function used to load all the items from configuration files.
+        :return: --
+        """
+
+        log.info("Loading all the items of the home present at path: " + self._ITEM_CFG_PATH)
+        for item_cfg_filename in os.listdir(self._ITEM_CFG_PATH):
+
+            # open the current config file
+            log.debug('loading ' + item_cfg_filename + ' item config file')
+            item_cfg_content = json.load(open(os.path.join(self._ITEM_CFG_PATH, item_cfg_filename)))
+
+            # create and add the item to the model
+            self._items_manager.create_item(item_cfg_content['model'], item_cfg_content['name'])
+
         return
 
 
