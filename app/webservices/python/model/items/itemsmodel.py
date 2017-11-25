@@ -6,14 +6,14 @@
 import logging
 log = logging.getLogger(__name__)
 
-from smarthomeapp.model.items.itemsdefintion import *
-from smarthomeapp.model.items.itemsutils import ItemException
+from app.webservices.python.model.items.itemsdefintion import AbstractItem, GradientLight,OnOffLight
+from app.webservices.python.model.items.itemsutils import ItemException
 
 
 class ItemsModel:
     """ Class representing the Home model """
 
-    ITEM_ID = 0 # ID counter for the new ids
+    ITEM_ID_COUNTER = 0 # ID counter for the new ids
 
     def __init__(self):
         """  Model Constructor """
@@ -29,7 +29,7 @@ class ItemsModel:
         :return: --
         """
 
-        item = eval(model)(self.ITEM_ID, name) # create the item
+        item = eval(model)(self.ITEM_ID_COUNTER, name) # create the item
 
         # check if model is subclass of AbstractItems
         if not isinstance(item, AbstractItem):
@@ -39,7 +39,7 @@ class ItemsModel:
         self._items[item.get_id()] = item
         log.debug("loaded item :\n" + str(item))
 
-        self.ITEM_ID += 1
+        self.ITEM_ID_COUNTER += 1
 
         return
 

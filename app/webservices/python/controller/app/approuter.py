@@ -19,7 +19,8 @@ USER_REQUEST_MANAGER = None
 
 def start_application(args=None):
     """ 
-    Function that create a controller instance and start the smarthomeapp.
+    Function that create a controller instance and start the python.
+    :param args: input arguments to the Thread
     :return: --
     """
 
@@ -41,15 +42,4 @@ def home_page():
     :return: home page instance.
     """
 
-    page = Environment(loader = PackageLoader('smarthomeapp', 'view/templates')).get_template('home.html')
-    return page.render()
-
-
-@SMART_HOME_APPLICATION.route('/js/<path:path>')
-def java_script(path):
-    """
-    JS requested returned.
-    :return: JS file content.
-    """
-
-    return send_from_directory(os.path.join(os.getcwd(), 'view/js'), path)
+    return ''

@@ -4,8 +4,9 @@
 #####################################
 
 from abc import ABCMeta
-from smarthomeapp.model.items.itemstatuses import OnOffStatus, GradientStatus, Status
-from smarthomeapp.model.items.itemsutils import ItemException, OnOff
+
+from app.webservices.python.model.items.itemsutils import OnOff
+from app.webservices.python.model.items.itemstatuses import OnOffStatus, GradientStatus
 
 
 # -----------------------------------------------------

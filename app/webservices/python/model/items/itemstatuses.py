@@ -4,7 +4,9 @@
 #####################################
 
 import abc
-from smarthomeapp.model.items.itemsutils import ItemException, OnOff
+
+from app.webservices.python.model.items.itemsutils import ItemException, OnOff
+
 
 # -----------------------------------------------------
 #                 Abstract Status

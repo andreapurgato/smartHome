@@ -8,7 +8,7 @@ log = logging.getLogger(__name__)
 
 import threading
 
-class UserController(threading.Thread):
+class SessionController(threading.Thread):
     """ Class that manages all the requests that comes from the User GUI """
 
     def __init__(self, group=None, target=None, name=None,  args=()):
@@ -17,22 +17,21 @@ class UserController(threading.Thread):
         self.setName("RequestManager")
 
         # get params
-        self._user_queue = args[0] # queue used to get all the requests
-        self._requests_queue = args[1] # queue used to put all the request that has to be managed by the items controller
+        self._request_session_queue = args[0] # queue used to get all the requests
         return
 
 
     def run(self):
         """ Run function of the thread """
-        log.info("User Controller started")
+        log.info("Session Controller started")
 
         while True:
 
-            log.info("Waiting request from user...")
-            self._user_queue.get()
-            log.info("Got request from user, processing it")
+            log.info("Waiting session request...")
+            self._request_session_queue.get()
+            log.info("Got session request, processing it")
 
-            # TODO: MANAGE USER REQUEST and PUT THE ITEM REQUEST TO THE _requests_queue
+            # TODO: MANAGE THE SESSION REQUEST
 
             continue
 

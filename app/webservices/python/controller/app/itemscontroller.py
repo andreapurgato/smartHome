@@ -9,9 +9,6 @@ log = logging.getLogger(__name__)
 import json
 import os
 import threading
-from Queue import Queue
-from smarthomeapp.model.items.itemsmodel import ItemsModel
-from smarthomeapp.controller.app.itemsupdater import ItemsUpdater
 
 
 # -----------------------------------------------------
@@ -21,8 +18,7 @@ from smarthomeapp.controller.app.itemsupdater import ItemsUpdater
 class ItemsController(threading.Thread):
     """ Class representing the Controller of all the items present in the system """
 
-    _ITEM_CFG_PATH = os.path.join(os.getcwd(), os.path.join('configurations', 'items'))
-    _ITEM_CHECK_PERIOD = 30.0
+    _ITEM_CFG_PATH = os.path.join(os.getcwd(), os.path.join('conf', 'items'))
 
     def __init__(self, group=None, target=None, name=None, args=()):
         """ Items Controller Constructor """
@@ -30,16 +26,11 @@ class ItemsController(threading.Thread):
         self.setName("ItemsController")
 
         # get params
-        self._request_queue = args[0]
+        self._request_items_queue = args[0]
         self._items_model = args[1]
 
         # load all the items
         self._load_items()
-
-        # creates the items updater and start the periodic function
-        self._items_updater = ItemsUpdater(self._request_queue)
-        threading.Timer(0.0, self._update_items).start() # start check timer
-
         return
 
 
@@ -50,7 +41,7 @@ class ItemsController(threading.Thread):
         while True:
 
             log.info("Waiting items request...")
-            self._request_queue.get()
+            self._request_items_queue.get()
             log.info("Got request to items, processing it")
 
             # TODO: MANAGE ITEM REQUEST
@@ -74,21 +65,6 @@ class ItemsController(threading.Thread):
             # create and add the item to the model
             self._items_model.create_item(item_cfg_content['model'], item_cfg_content['name'])
 
-        return
-
-
-
-    def _update_items(self):
-        """
-        Periodic function that check the items status, use the ItemsUpdater object.
-        :return: --
-        """
-
-        # update_catalog the status
-        self._items_updater.check_items_status(self._items_model.get_items())
-
-        # call the update every 30 seconds
-        threading.Timer(self._ITEM_CHECK_PERIOD, self._update_items).start()
         return
 
 

@@ -11,7 +11,7 @@ import logging.config
 def setup_logging( default_path = os.path.join(os.getcwd(), 'logger/logger_configurations.json'), default_level = logging.INFO):
     """
     Function that initialize the logger.
-    :param default_path: path where read the configurations
+    :param default_path: path where read the conf
     :param default_level: default level of logging
     :return: --
     """
